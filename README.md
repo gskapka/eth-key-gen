@@ -23,7 +23,7 @@
 
 ## :black_nib: _Notes for Riccardo_
 
-**❍** The OPSEC of running this script not very strong!! It console logs the private key, so make sure no one is watching over your shoulder!! :stuck_out_tongue_closed_eyes:
+**❍** The OPSEC of running this script not very strong!! It console logs the private key, so make sure no one is watching over your shoulder!!
 
 **❍** If you look in `./lib/generate-key-pair.js` you'll see line 41 is where the private key is logged to the console. Comment that out if you don't want better OPSEC!
 
