@@ -30,6 +30,7 @@ const getPrivKey = (password, keyObj) =>
 const generatePrivKey = password => 
   createKey()
     .map(k => keyObject(password, k))
+    // .map(k => keythereum.exportToFile(k) || k)
     .map(k => getPrivKey(password, k))
 
 // IMPURE! module.exports :: string -> ethereum key pair
