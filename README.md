@@ -30,3 +30,8 @@
 **❍** If you look in `eth-key-gen.js` you'll see a line commented out. Un-comment that line if you want the script to save a keyfile that's password protected with the password you've provided.
 
 **❍** See the [Keythereum](https://github.com/ethereumjs/keythereum#readme) & [Ethereum Utils](https://github.com/ethereumjs/ethereumjs-util) github pages to see what's going on under the hood!
+
+## :black_nib: _Notes for Me_
+
+**❍** Use applicatives and partially apply the two curriable functions!
+
