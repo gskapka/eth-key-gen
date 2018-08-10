@@ -1,25 +1,44 @@
-const keythereum = require('keythereum')
-    , ethutil = require('ethereumjs-util')
+const Task       = require('data.task')
+    , keythereum = require('keythereum')
+    , ethutil    = require('ethereumjs-util')
+    , {compose, map} = require('ramda')
 
+//    privateKeyToAddress :: string -> string
 const privateKeyToAddress = privateKey =>
-`0x${ethutil.privateToAddress(hexTobytes(privateKey)).toString('hex')}`
+  `0x${ethutil.privateToAddress(hexToBytes(privateKey)).toString('hex')}`
 
-const hexTobytes = hex => {
-  for (var bytes = [], c = 0; c < hex.length; c += 2)
-  bytes.push(parseInt(hex.substr(c, 2), 16))
-  return bytes
-}
+//    hexToBytes :: string -> [bytes]
+const hexToBytes = hex => 
+  new Array (hex.length/2).fill().map((_, i) => parseInt(hex.substr(i * 2, 2), 16))
 
-module.exports = password => {
-  const dk = keythereum.create()
-    , keyObject = keythereum.dump(password, dk.privateKey, dk.salt, dk.iv)
-    , privateKey = keythereum.recover(password, keyObject)
-    , readablePrivKey = privateKey.toString('hex')
-  // keythereum.exportToFile(keyObject) // uncomment if you want to save the keystore file
-  console.log(
-  `Your private key: ${readablePrivKey}`,
-  `\nYour public address: ${privateKeyToAddress(readablePrivKey)}`
-  )
-}
+//    createKey :: () -> Task error {key}
+const createKey = () => 
+  new Task ((_, res) => res(keythereum.create()))
 
-// module.exports = generateKey
+//    keyObject = string -> {string} -> {string}
+const keyObject = (password, ck) =>
+  keythereum.dump(password, ck.privateKey, ck.salt, ck.iv)
+
+//    getPrivKey :: string -> {string} -> string
+const getPrivKey = (password, keyObj) =>
+  keythereum.recover(password, keyObj).toString('hex')
+
+//    generatePrivKey :: string -> Task error privKey
+const generatePrivKey = password => 
+  createKey()
+    .map(k => keyObject(password, k))
+    .map(k => getPrivKey(password, k))
+//   compose(map(getPrivKey(password)), map(keyObject(password)), createKey)
+
+//    logKeyPairs :: string -> Task error ethAddress
+const logKeyPairs = password =>
+  generatePrivKey(password)
+    .map(m => console.log(`Private key: ${m}`) || m)
+    .map(privateKeyToAddress)
+
+// IMPURE!
+// module.exports :: string -> ethereum key pair
+module.exports = password => 
+  logKeyPairs(password)
+    .fork(e => console.log(`Error ${e}`),
+          r => console.log(`Public address: ${r}`))
