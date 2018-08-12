@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/gskapka/eth-key-gen#readme",
   "dependencies": {
+    "data.either": "^1.5.1",
     "data.task": "^3.1.1",
     "ethereumjs-util": "^5.2.0",
     "keythereum": "^1.0.4",
