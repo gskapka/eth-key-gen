@@ -26,17 +26,16 @@ const keyObject = (password, k) =>
 const getPrivKey = (password, keyObj) =>
   keythereum.recover(password, keyObj).toString('hex')
 
-//    generatePrivKey :: string -> Task error privKey
-const generatePrivKey = password => 
+//IMPURE! module.exports :: string -> ethereum key pair
+module.exports = password => 
   createKey()
     .map(k => keyObject(password, k))
-    // .map(k => keythereum.exportToFile(k) || k)
+    .map(k => {keythereum.exportToFile(k); return k})
     .map(k => getPrivKey(password, k))
-
-// IMPURE! module.exports :: string -> ethereum key pair
-module.exports = password => 
-  generatePrivKey(password)
-    .map(m => console.log(`Private key: ${m}`) || m)
+    .map(k => console.log(`\nPrivate key: ${k}`) || k)
     .map(privateKeyToAddress)
-    .fork(e => console.log(`Error ${e}`),
-          r => console.log(`Public address: ${r}`))
+    .fork(e => console.log(`Error creating key pair: ${e}`),
+          r => console.log(
+            `\nPrivate key & public address pair generated.
+             \nPublic addr: ${r}
+             \nKeyfile saved to ${__dirname}/keystore`))
