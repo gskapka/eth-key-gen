@@ -17,7 +17,7 @@
 
 **4.** Generate an ethereum address & private key: 
 
-**`❍ node -e 'require("./eth-key-gen")("your-password-here")'`**
+**`❍ node eth-key-gen --p <your-password-here>`**
 
 ***
 
@@ -25,13 +25,18 @@
 
 **❍** The OPSEC of running this script not very strong!! It console logs the private key, so make sure no one is watching over your shoulder!! :stuck_out_tongue_closed_eyes:
 
+**❍** If you look in `./lib/generate-key-pair.js` you'll see line 41 is where the private key is logged to the console. Comment that out if you don't want better OPSEC!
+
 **❍** There are no tests because I've just thrown this together in five minutes.
 
-**❍** If you look in `eth-key-gen.js` you'll see a line commented out. Un-comment that line if you want the script to save a keyfile that's password protected with the password you've provided.
+**❍** If you don't provide it a password via the `--p` flag, it'll use a default password of "password".
 
 **❍** See the [Keythereum](https://github.com/ethereumjs/keythereum#readme) & [Ethereum Utils](https://github.com/ethereumjs/ethereumjs-util) github pages to see what's going on under the hood!
 
-## :black_nib: _Notes for Me_
+## :clipboard: _To Do List for Me_
 
-**❍** Use applicatives and partially apply the two curriable functions!
+:white_check_mark: Use applicatives and partially apply the two curriable, password-requiring functions!
 
+:black_square_button: Write tests!
+
+:black_square_button: Port to typescript!
