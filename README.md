@@ -13,7 +13,7 @@
 
 **3.** Install dependencies:
 
-**`❍ npm install`**
+**`❍ pnpm install`**
 
 **4.** Generate an ethereum address & private key: 
 
@@ -23,7 +23,7 @@
 
 ## :black_nib: _Notes for Riccardo_
 
-**❍** The OPSEC of running this script not very strong!! It console logs the private key, so make sure no one is watching over your shoulder!!
+**❍** The OPSEC of running this script not very strong! It logs the private key to the console with no warning, so make sure no one is shoulder surfing your!
 
 **❍** If you look in `./lib/generate-key-pair.js` you'll see line 41 is where the private key is logged to the console. Comment that out if you don't want better OPSEC!
 
